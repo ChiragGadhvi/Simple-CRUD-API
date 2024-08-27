@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const Product = require('./models/product.model.js');
@@ -16,8 +17,10 @@ app.get('/', (req, res) => {
     res.send('Hello World from Server');
 });
 
-mongoose.connect("mongodb+srv://chiraggadhvi7272:w6F6fIAa29FTclTZ@backenddb.ullqb.mongodb.net/Node-API?retryWrites=true&w=majority&appName=BackendDB")
-    .then(() => {
+const mongoUri = `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}/${process.env.MONGO_DB}?${process.env.MONGO_OPTIONS}`;
+
+mongoose.connect(mongoUri)
+.then(() => {
         console.log('Connected to MongoDB');
         app.listen(3000, () => {
             console.log('Server running on port 3000');
